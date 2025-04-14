@@ -1,4 +1,9 @@
 <x-app-layout>
+<x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Visitor List') }}
+            </h2>
+        </x-slot>
     <style>
         body {
             background-color: #f9fafb;
@@ -24,7 +29,7 @@
 <body>
 <div class="container mt-5">
     <div class="d-flex justify-content-between mb-3">
-        <h2 class="fw-bold">Visitors List</h2>
+
         <a href="{{ route('visitors.create') }}" class="btn btn-primary rounded-pill px-4 shadow-sm">+ Add Pre-register</a>
     </div>
 
@@ -49,33 +54,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($visitors as $visitor)
-                        <tr>
-                            <td>{{ $visitor->full_name }}</td>
-                            <td>{{ $visitor->contact_number }}</td>
-                            <td>{{ $visitor->address }}</td>
-                            <td>{{ $visitor->who_to_meet }}</td>
-                            <td>{{ $visitor->reason }}</td>
-                            <td>{{ $visitor->time_in }}</td>
-                            <td>{{ $visitor->time_out }}</td>
-                            <td>{{ $visitor->created_at }}</td>
-                            <td class="text-center">
-                            <div class="d-flex justify-content-center align-items-center gap-2">
-                                <a href="{{ route('visitors.edit', $visitor->id) }}" class="btn btn-warning btn-sm btn-icon text-white" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <form action="{{ route('visitors.destroy', $visitor->id) }}" method="POST" class="delete-form m-0 p-0">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm btn-icon" title="Delete">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                        </tr>
-                    @endforeach
-                </tbody>
+    @foreach($visitors as $visitor)
+        <tr>
+            <td>{{ $visitor->full_name }}</td>
+            <td>{{ $visitor->contact_number }}</td>
+            <td>{{ $visitor->address }}</td>
+            <td>
+                @if($visitor->contact)
+                    {{ $visitor->contact->name }} ({{ $visitor->contact->role }})
+                @else
+                    N/A
+                @endif
+            </td>
+            <td>{{ $visitor->reason }}</td>
+            <td>{{ $visitor->time_in }}</td>
+            <td>{{ $visitor->time_out }}</td>
+            <td>{{ $visitor->created_at }}</td>
+            <td class="text-center">
+                <div class="d-flex justify-content-center align-items-center gap-2">
+                    <a href="{{ route('visitors.edit', $visitor->id) }}" class="btn btn-warning btn-sm btn-icon text-white" title="Edit">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{{ route('visitors.timeout', $visitor->id) }}" class="btn btn-info btn-sm btn-icon text-white" title="Time Out">
+                        <i class="bi bi-clock"></i>
+                    </a>
+                    <form action="{{ route('visitors.destroy', $visitor->id) }}" method="POST" class="delete-form m-0 p-0">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm btn-icon" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
             </table>
         </div>
         {{ $visitors->links() }}

@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Voctech</title>
-
+        <link rel="icon" href="{{ asset('image/30441-removebg-preview (1).png') }}" />
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -41,6 +41,7 @@
                 <a href="{{ route('dashboard') }}" class="block py-2 hover:bg-blue-800 rounded">Dashboard</a>
                 <a href="{{ route('profile.edit') }}" class="block py-2 hover:bg-blue-800 rounded">Profile</a>
                 <a href="{{ route('visitors.index') }}" class="block py-2 hover:bg-blue-800 rounded">Visitor Management</a>
+                <a href="{{ route('contacts.index') }}" class="block py-2 hover:bg-blue-800 rounded">Student & Admin</a>
             </nav>
         </div>
 

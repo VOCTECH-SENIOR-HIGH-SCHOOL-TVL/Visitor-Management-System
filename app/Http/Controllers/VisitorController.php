@@ -6,10 +6,14 @@ use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB; 
+use App\Models\Contact;
 class VisitorController extends Controller
 {
     public function create()
-    {
+    {  
+        
+            $contacts = Contact::all(); 
+            return view('visitor.create', compact('contacts'));
         return view('visitor.create');
     }
 
@@ -82,4 +86,22 @@ public function today()
         return view('dashboard', compact('totalVisitors', 'totalVisitorsToday'));
     }
 
+public function showTimeoutForm($id)
+{
+    $visitor = Visitor::findOrFail($id);
+    return view('visitor\time_out', compact('visitor'));
+}
+
+public function timeout(Request $request, $id)
+{
+    $request->validate([
+        'time_out' => 'required|date_format:H:i',
+    ]);
+
+    $visitor = Visitor::findOrFail($id);
+    $visitor->time_out = $request->time_out;
+    $visitor->save();
+
+    return redirect()->route('visitors.index')->with('success', 'Visitor time out recorded successfully.');
+}
 }

@@ -11,18 +11,18 @@ class CreateVisitorsTable extends Migration
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
-            $table->string('contact_number');
+            $table->string('contact_number');   
             $table->text('address');
-            $table->string('who_to_meet');
+            $table->string('who_to_meet')->constrained('contacts');;
             $table->text('reason');
             $table->time('time_in');
             $table->time('time_out');
             $table->timestamps();
         });
     }
-
+    
     public function down()
     {
         Schema::dropIfExists('visitors');
-    }
+    }   
 }
